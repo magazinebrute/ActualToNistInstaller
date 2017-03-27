@@ -37,10 +37,11 @@
             this.button_create = new System.Windows.Forms.Button();
             this.labelstatus = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBoxLicenseSection = new System.Windows.Forms.CheckBox();
-            this.checkBoxuninstall_section = new System.Windows.Forms.CheckBox();
-            this.textBox_optional_program_folder = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.textBox_optional_program_folder = new System.Windows.Forms.TextBox();
+            this.checkBoxuninstall_section = new System.Windows.Forms.CheckBox();
+            this.checkBoxLicenseSection = new System.Windows.Forms.CheckBox();
+            this.checkBox_Create_Read_Me_section = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,28 +119,34 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBox_Create_Read_Me_section);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.textBox_optional_program_folder);
             this.groupBox1.Controls.Add(this.checkBoxuninstall_section);
             this.groupBox1.Controls.Add(this.checkBoxLicenseSection);
             this.groupBox1.Location = new System.Drawing.Point(23, 200);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(959, 84);
+            this.groupBox1.Size = new System.Drawing.Size(959, 94);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Output Options:";
             // 
-            // checkBoxLicenseSection
+            // label3
             // 
-            this.checkBoxLicenseSection.AutoSize = true;
-            this.checkBoxLicenseSection.Checked = true;
-            this.checkBoxLicenseSection.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxLicenseSection.Location = new System.Drawing.Point(6, 19);
-            this.checkBoxLicenseSection.Name = "checkBoxLicenseSection";
-            this.checkBoxLicenseSection.Size = new System.Drawing.Size(136, 17);
-            this.checkBoxLicenseSection.TabIndex = 0;
-            this.checkBoxLicenseSection.Text = "Create License Section";
-            this.checkBoxLicenseSection.UseVisualStyleBackColor = true;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(156, 20);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(209, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Optional Program Files Folder to Install into:";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // textBox_optional_program_folder
+            // 
+            this.textBox_optional_program_folder.Location = new System.Drawing.Point(371, 17);
+            this.textBox_optional_program_folder.Name = "textBox_optional_program_folder";
+            this.textBox_optional_program_folder.Size = new System.Drawing.Size(156, 20);
+            this.textBox_optional_program_folder.TabIndex = 2;
             // 
             // checkBoxuninstall_section
             // 
@@ -153,22 +160,29 @@
             this.checkBoxuninstall_section.Text = "Create Uninstaller";
             this.checkBoxuninstall_section.UseVisualStyleBackColor = true;
             // 
-            // textBox_optional_program_folder
+            // checkBoxLicenseSection
             // 
-            this.textBox_optional_program_folder.Location = new System.Drawing.Point(371, 17);
-            this.textBox_optional_program_folder.Name = "textBox_optional_program_folder";
-            this.textBox_optional_program_folder.Size = new System.Drawing.Size(156, 20);
-            this.textBox_optional_program_folder.TabIndex = 2;
+            this.checkBoxLicenseSection.AutoSize = true;
+            this.checkBoxLicenseSection.Checked = true;
+            this.checkBoxLicenseSection.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxLicenseSection.Location = new System.Drawing.Point(6, 19);
+            this.checkBoxLicenseSection.Name = "checkBoxLicenseSection";
+            this.checkBoxLicenseSection.Size = new System.Drawing.Size(136, 17);
+            this.checkBoxLicenseSection.TabIndex = 0;
+            this.checkBoxLicenseSection.Text = "Create License Section";
+            this.checkBoxLicenseSection.UseVisualStyleBackColor = true;
             // 
-            // label3
+            // checkBox_Create_Read_Me_section
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(156, 20);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(209, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Optional Program Files Folder to Install into:";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.checkBox_Create_Read_Me_section.AutoSize = true;
+            this.checkBox_Create_Read_Me_section.Checked = true;
+            this.checkBox_Create_Read_Me_section.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Create_Read_Me_section.Location = new System.Drawing.Point(6, 65);
+            this.checkBox_Create_Read_Me_section.Name = "checkBox_Create_Read_Me_section";
+            this.checkBox_Create_Read_Me_section.Size = new System.Drawing.Size(158, 17);
+            this.checkBox_Create_Read_Me_section.TabIndex = 4;
+            this.checkBox_Create_Read_Me_section.Text = "Create Readme File Section";
+            this.checkBox_Create_Read_Me_section.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -208,6 +222,7 @@
         private System.Windows.Forms.CheckBox checkBoxuninstall_section;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox_optional_program_folder;
+        private System.Windows.Forms.CheckBox checkBox_Create_Read_Me_section;
     }
 }
 

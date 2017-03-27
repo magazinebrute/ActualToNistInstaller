@@ -91,6 +91,10 @@ namespace ActualInstaller2NISTInstaller
                 string promptuninstall = i["Setup"]["PromptUninstall"];
                 string shortcuts = i["Shortcuts"]["0"];
                 string mainexecutable = i["Setup"]["MainExecutable"];
+                string readmefile = i["Readme"]["(Default)"];
+                string licensefile = i["License"]["(Default)"];
+                
+                
 
                 //GET LIST OF EXCLUDED FILES
 
@@ -142,7 +146,7 @@ namespace ActualInstaller2NISTInstaller
 
                 if (checkBoxLicenseSection.Checked)
                 {
-                    o = o + "LicenseData license.txt" + Environment.NewLine;
+                    o = o + "LicenseData \"" + ((string.IsNullOrEmpty(licensefile)) ? readmefile : licensefile) + "\"" + Environment.NewLine;
                     o = o + "Page license" + Environment.NewLine;
                 }
                 o = o + "Page components" + Environment.NewLine;
@@ -159,7 +163,7 @@ namespace ActualInstaller2NISTInstaller
                 o += "Section Main" + Environment.NewLine;
                 o += Environment.NewLine;
                 o += "SetShellVarContext all" + Environment.NewLine;
-                //o += "SectionIn RO" + Environment.NewLine;
+                
                 
                 foreach (var item in myworkfiles)
                 {
@@ -189,13 +193,13 @@ namespace ActualInstaller2NISTInstaller
                             myfiles.currdir = item.directoryname;
                         }
                     }
-                    o += "File /nonfatal " + Path.Combine(item.directoryname, item.filename) + Environment.NewLine;
+                    o += "File \"" + Path.Combine(item.directoryname, item.filename) + "\"" +Environment.NewLine;
                 }
                 
-                if (checkBoxuninstall_section.Checked && promptuninstall == "1")
+                if (checkBoxuninstall_section.Checked)
                 {
                     o += Environment.NewLine;
-                    o += "WriteUninstaller \"$INSTDIR\"\\uninstall.exe\"" + Environment.NewLine;
+                    o += "WriteUninstaller \"$INSTDIR\\uninstall.exe\"" + Environment.NewLine;
 
                 }
 
@@ -203,6 +207,7 @@ namespace ActualInstaller2NISTInstaller
                 o += "SectionEnd" + Environment.NewLine;
                 o += Environment.NewLine;
 
+                #region start menu
                 //add start menu
                 o += "Section StartMenu" + Environment.NewLine;
                 o += "SetShellVarContext all" + Environment.NewLine;
@@ -226,7 +231,54 @@ namespace ActualInstaller2NISTInstaller
                     o += "CreateShortCut \"$SMPROGRAMS\\@OPTFOLDER\\@APPNAME.lnk\" \"$INSTDIR\\@ME".Replace("@APPNAME", appname).Replace("@OPTFOLDER", textBox_optional_program_folder.Text).Replace("@ME",mainexecutable.Replace("<InstallDir>\\","")) + "\"" + Environment.NewLine;
                 }
                 o += "SectionEnd" + Environment.NewLine;
-                
+                #endregion
+
+                #region uninstaller section
+                if (checkBoxuninstall_section.Checked)
+                {
+                    //write uninstall section
+                    o += Environment.NewLine;
+                    o += Environment.NewLine;
+                    o += "Section UnInstall" + Environment.NewLine;
+                    o += "SetShellVarContext all" + Environment.NewLine;
+                    o += "Delete \"$SMPROGRAMS\\@OPTFOLDER\\@APPNAME.lnk\"".Replace("@APPNAME", appname).Replace("@OPTFOLDER", textBox_optional_program_folder.Text) + Environment.NewLine;
+                    
+                    foreach (var item in myworkfiles)
+                    {
+                        if (myfiles.currdir == "")
+                        {
+                            myfiles.currdir = item.directoryname;
+                            if (item.directoryname == sourcedir)
+                            {
+                                o += "SetOutPath \"$INSTDIR\"" + Environment.NewLine;
+                            }
+                            else
+                            {
+                                //we have a new segment
+                                string temp = Path.Combine(item.directoryname, item.filename);
+                                o += "SetOutPath \"$INSTDIR\\" + new DirectoryInfo(Path.GetDirectoryName(temp)).Name + "\"" + Environment.NewLine;
+
+                            }
+
+                        }
+                        else
+                        {
+                            if (myfiles.currdir != item.directoryname)
+                            {
+                                //we have a new segment
+                                //string temp = Path.Combine(item.directoryname, item.filename);
+                                //o += "SetOutPath \"$INSTDIR\\" + new DirectoryInfo(Path.GetDirectoryName(temp)).Name + "\"" + Environment.NewLine;
+                                myfiles.currdir = item.directoryname;
+                            }
+                        }
+                        o += "Delete \"" + Path.Combine(item.directoryname, item.filename) + "\"" + Environment.NewLine;
+                    }
+                    o += "SectionEnd" + Environment.NewLine;
+                    o += Environment.NewLine;
+
+
+                }
+                #endregion
 
                 //CreateShortCut "$SMPROGRAMS\CBM\Kiosk\CBM Kiosk.lnk" "$INSTDIR\CBMKiosk.exe"
                 //<CommonDesktop>*?AgencyServer*?<InstallDir>\ie.bat*?AgencyServer AccessPoint*?*?<InstallDir>*?<InstallDir>\AgencyServer.exe*?0*?Normal
